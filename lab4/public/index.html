@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="javascripts/app.js"></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    <meta charset="utf-8">
+    <title>This Day In History</title>
+</head>
+
+<body>
+
+    <div class="input">
+        <h2>Today in History:</h2>
+        <p class="todayText"></p>
+        <h2>Another Day in History</h2>
+        <p class="pickedDayText"></p>
+        <input class="trueInput" type="text" name="search" autocomplete="off" placeholder="pick a date formatted 6/22"></input>
+    </div>
+
+    <script type="text/javascript">
+        // automatically pull random event from today in history.
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //index starts at 0
+        $.ajax({ url: "http://numbersapi.com/" + mm + "/" + dd + "/date", success: function(data) { $('.todayText').html(data); } });
+
+        const input = $('.trueInput');
+        input.keyup(({
+            keyCode: key
+        }) => key === 13 ? get_history() : null);
+
+        function get_history() {
+            var mydate = input.val();
+            var myurl = "http://numbersapi.com/";
+            myurl += mydate + "/date";
+            console.log(myurl);
+
+            $.ajax({ url: myurl, success: function(data) { $('.pickedDayText').html(data); } });
+        };
+    </script>
+
+</body>
+
+</html>
